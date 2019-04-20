@@ -8,19 +8,27 @@ sudo apt upgrade -y
 
 ## set up brew - installation instructions from https://docs.brew.sh/Homebrew-on-Linux
 # added -y flag to answer yes to confirmations
-sudo apt-get install -y build-essential curl file git
-
-# piping echo to answer prompt from brew installation
+sudo apt install -y build-essential curl file git
 echo "/n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-echo "eval  $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >>~/.profile
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-brew --version
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+sudo apt install -y linuxbrew-wrapper
+echo 'export PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"'
+export PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"
 
-# ## install gcc
-# brew install gcc
+## install gcc
+brew install gcc
 
-# ## install node
-# brew install node
+## install git
+brew install git
 
-# ## install azure-cli
-# brew install azure-cli
+## install azure-cli
+brew install azure-cli
+
+## install node
+#  installing python3-distutils because of issues with icu4c
+#  https://github.com/Homebrew/linuxbrew-core/issues/12680
+sudo apt install -y python3-distutils
+brew install node
