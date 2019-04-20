@@ -30,6 +30,4 @@ brew install azure-cli
 sudo apt install -y python3-distutils
 brew install node
 
-brew doctor
-
 exit 0
