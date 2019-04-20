@@ -12,8 +12,8 @@ sudo apt-get install -y build-essential curl file git
 
 # piping echo to answer prompt from brew installation
 echo "/n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-eval \$($(brew --prefix)/bin/brew shellenv)
+echo "eval  $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >>~/.profile
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 brew --version
 
 # ## install gcc
