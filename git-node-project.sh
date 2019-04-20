@@ -90,5 +90,6 @@ touch \
   src/.gitkeep \
   test/.gitkeep
 
+## exit script
 echo "project created in $(pwd)"
 exit 0

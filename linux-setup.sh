@@ -30,4 +30,6 @@ brew install azure-cli
 sudo apt install -y python3-distutils
 brew install node
 
+## exit script
+echo "installation completed"
 exit 0
