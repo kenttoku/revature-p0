@@ -13,7 +13,7 @@ echo "/n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/inst
 sudo apt install -y linuxbrew-wrapper
 echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >> ~/.profile
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-brew doctor
+source ~/.profile
 
 ## install gcc
 brew install gcc
@@ -24,12 +24,12 @@ brew install git
 ## install azure-cli
 brew install azure-cli
 
-# ## install node
-# #  installing python3-distutils because of issues with icu4c
-# #  https://github.com/Homebrew/linuxbrew-core/issues/12680
-# sudo apt install -y python3-distutils
-# brew install node
+## install node
+#  installing python3-distutils because of issues with icu4c
+#  https://github.com/Homebrew/linuxbrew-core/issues/12680
+sudo apt install -y python3-distutils
+brew install node
 
-echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >> ~/.profile
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 brew doctor
+
+exit 0
