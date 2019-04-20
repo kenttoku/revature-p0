@@ -89,3 +89,6 @@ touch \
   client/.gitkeep \
   src/.gitkeep \
   test/.gitkeep
+
+echo "project created in $(pwd)"
+exit 0
