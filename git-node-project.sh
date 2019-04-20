@@ -3,6 +3,12 @@
 # verify dev environment
 
 ## check for brew
-brew=$(brew --version)
+brew=$(which brew)
+node=$(which node)
+git=$(which git)
+az=$(which az)
 
-echo brew
+echo $brew
+echo $node
+echo $git
+echo $az
