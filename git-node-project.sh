@@ -40,11 +40,12 @@ fi
 dest=$1
 
 if [ -z $dest ]; then
-  dest=git-node-project
+  dest=$(pwd)
 fi
 
-mkdir $dest
-cd $dest
+echo $dest
+mkdir -p $dest/revaturexyz
+cd $dest/revaturexyz
 git init
 
 ## make it a node project
