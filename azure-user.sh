@@ -31,6 +31,7 @@ admin_check()
   echo $check
 }
 
+# logs user in
 login()
 {
   username=$1
@@ -65,6 +66,8 @@ login()
   echo "validated user"
 }
 
+# the create command
+# creates the user
 create_user()
 {
   PASSWORD=revature2019!
@@ -73,18 +76,31 @@ create_user()
   usersubscription=$2
   userprincipalname=$userdisplayname@$DOMAIN
 
-  user=$(az ad user list \
-  --query [].userPrincipalName \
-  | grep -E $userprincipalname)
+  # validate arguments
+  if [ -z $userdisplayname ]; then
+    echo "must provide display name" 1>&2
+    exit 1
+  elif [ -z $usersubscription ]; then
+    echo "must provide subscription" 1>&2
+    exit 1
+  fi
 
-  echo $user
+  # check if the user already exists
+  user=$(az ad user list \
+    --query [].userPrincipalName \
+    | grep -E $userprincipalname)
+
   if [ -z $user ]; then
-  az ad user create \
-    --display-name $userdisplayname \
-    --password $PASSWORD \
-    --user-principal-name $userprincipalname \
-    --force-change-password-next-login \
-    --subscription $usersubscription
+    echo "creating user"
+    az ad user create \
+      --display-name $userdisplayname \
+      --password $PASSWORD \
+      --user-principal-name $userprincipalname \
+      --force-change-password-next-login \
+      --subscription $usersubscription
+  else
+    echo "user already exists" 1>&2
+    exit 1
   fi
 }
 
