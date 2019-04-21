@@ -3,26 +3,29 @@
 
 start()
 {
-  dirpath=$1
+  location=$1
 
   # validate input
-  if [ -z $dirpath ]; then
-    echo "Missing directory name"
-    exit 1
-  elif ! [ -d $dirpath ]; then
-    echo "Invalid directory"
-    exit 1
-  elif ! [ -d $dirpath/package.json ]; then
-    echo "Invalid node project. Please make sure there is a package.json in the directory"
-    exit 1
-  elif ! [ -d $(cat $dirpath/package.json | grep -E "start" ]; then
-    echo "No start script"
+  if [ -z $location ]; then
+    echo "Missing location"
     exit 1
   fi
 
-  echo "starting app"
-  cd $dirpath
-  npm start
+  if ! [ -d $location ] && ! [ -e $location ]; then
+    echo "Invalid location"
+    exit 1
+  fi
+
+  # if the path provided is a directory, run the npm start script
+  if [ -d $location ]; then
+    cd $location
+    npm start
+  fi
+
+  # if the path provided is a file, run using node
+  if [ -e $location ]; then
+    node $location
+  fi
 }
 
 stop()
