@@ -157,6 +157,14 @@ delete_user()
     userprincipalname=$username
   fi
 
+  # do not delete if user is admin
+  admincheck=$(admin_check $userprincipalname)
+
+  if ! [ -z $admincheck ]; then
+    echo "You may not delete another admin" 1>&2
+    exit 1
+  fi
+
   # check if the user exists
   user=$(az ad user list \
     --query [].userPrincipalName \
