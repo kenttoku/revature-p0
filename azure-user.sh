@@ -94,7 +94,10 @@ delete()
   fi
 
   # do not delete if user is admin
-  admincheck=$(admin_check $userprincipalname)
+  admincheck=$(az role assignment list \
+    --include-classic-administrators \
+    --query "[?id=='NA(classic admins)'].principalName" \
+    | grep -E $userprincipalname)
 
   if ! [ -z $admincheck ]; then
     echo "You may not delete another admin" 1>&2
@@ -115,18 +118,19 @@ delete()
   fi
 }
 
-##### MAIN #####
-## Variables
+##### VARIABLES #####
 command=$1
 username=$2
 
-## Validate command
+##### MAIN #####
+
+# Validate command
 if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" ]; then
   echo "invalid command" 1>&2
   exit 1
 fi
 
-# checks for arguments
+# validate username
 if [ -z $username ]; then
   echo "please specify username" 1>&2
   exit 1
