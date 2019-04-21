@@ -162,6 +162,6 @@ if [ -z $check ]; then
   exit 1
 fi
 
-echo "validated user"
+echo "validated as admin user"
 
 $command $3 $4 $5
