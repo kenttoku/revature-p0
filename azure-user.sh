@@ -37,7 +37,7 @@ create_user()
   DOMAIN=kenttokunagagmail.onmicrosoft.com
   userprincipalname=$userdisplayname@$DOMAIN
   login $username
-  $check=$(admin_check $username)
+  check=$(admin_check $username)
 
   if [ -z $check ]; then
     echo "must be admin" 1>&2
