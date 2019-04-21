@@ -6,16 +6,6 @@
 # 1 script with 3 functions
 
 # functions
-login()
-{
-  username=$1
-  if [ -z $username ]; then
-    echo "please specify username" 1>&2
-    exit 1
-  fi
-  az login -u $username
-}
-
 admin_check()
 {
   principalname=$1
@@ -28,6 +18,23 @@ admin_check()
   echo $check
 }
 
+login()
+{
+  username=$1
+  if [ -z $username ]; then
+    echo "please specify username" 1>&2
+    exit 1
+  fi
+  az login -u $username
+
+  check=$(admin_check $username)
+
+  if [ -z $check ]; then
+    echo "must be admin" 1>&2
+    exit 1
+  fi
+}
+
 create_user()
 {
   username=$1
@@ -37,12 +44,6 @@ create_user()
   DOMAIN=kenttokunagagmail.onmicrosoft.com
   userprincipalname=$userdisplayname@$DOMAIN
   login $username
-  check=$(admin_check $username)
-
-  if [ -z $check ]; then
-    echo "must be admin" 1>&2
-    exit 1
-  fi
 
   user=$(az ad user list \
   --query [].userPrincipalName \
@@ -55,22 +56,20 @@ create_user()
     --user-principal-name $userprincipalname \
     --force-change-password-next-login \
     --subscription $usersubscription
-fi
-
+  fi
 }
 
 assign_role()
 {
   username=$1
   login $username
-  admin_check $username
+
 }
 
 delete_user()
 {
   username=$1
   login $username
-  admin_check $username
 }
 
 
