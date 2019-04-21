@@ -112,7 +112,36 @@ assign_role()
 
 delete_user()
 {
-  echo "delete"
+  username=$1
+  DOMAIN=@kenttokunagagmail.onmicrosoft.com
+
+  # validates arguments
+  if [ -z $username ]; then
+    echo "must provide username" 1>&2
+    exit 1
+  fi
+
+  # adds domain to username if omitted
+  usernamecheck=$(echo "$username" | grep -E $DOMAIN)
+
+  if [ -z $usernamecheck ]; then
+    userprincipalname=${username}${DOMAIN}
+  else
+    userprincipalname=$username
+  fi
+
+  # check if the user exists
+  user=$(az ad user list \
+    --query [].userPrincipalName \
+    | grep -E $userprincipalname)
+
+  if [ -z $user ]; then
+    echo "user does not exist" 1>&2
+    exit 1
+  else
+    echo "deleting user"
+    az ad user delete --upn-or-object-id $userprincipalname
+  fi
 }
 
 
@@ -131,7 +160,8 @@ if [ $command = "create" ]; then
 elif [ $command = "assign" ]; then
   assign_role
 elif [ $command = "delete" ]; then
-  delete_user
+  username=$3
+  delete_user $username
 else
   echo "invalid command"
 fi
