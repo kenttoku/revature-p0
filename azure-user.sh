@@ -14,10 +14,28 @@ userdisplayname=$3
 usersubscription=$4
 userprincipalname=$userdisplayname@$DOMAIN
 
-# login
-az login -u $username
+login()
+{
+  username=$1
+  az login -u $username
+}
 
-# get list of admins
-az role assignment list \
-  --include-classic-administrators \
-  --query "[?id=='NA(classic admins)'].principalName"
+admin_check()
+{
+  principalname=$1
+
+  check=$(az role assignment list \
+    --include-classic-administrators \
+    --query "[?id=='NA(classic admins)'].principalName" \
+    | grep $principalname)
+
+  echo "$check"
+}
+
+login $username
+isAdmin=$(admin_check $username)
+
+# # get list of admins
+# az role assignment list \
+#   --include-classic-administrators \
+#   --query "[?id=='NA(classic admins)'].principalName"
