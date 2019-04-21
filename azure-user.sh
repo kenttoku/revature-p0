@@ -6,17 +6,6 @@
 # 1 script with 3 functions
 
 # functions
-# checks if you are logged in as the account provided
-login_check()
-{
-  username=$1
-
-  check=$(az account show \
-  --query user.name \
-  | grep -E $username)
-
-  echo $check
-}
 
 # checks if the user is an admin
 admin_check()
@@ -31,44 +20,9 @@ admin_check()
   echo $check
 }
 
-# logs user in
-login()
-{
-  username=$1
-
-  # checks for arguments
-  if [ -z $username ]; then
-    echo "please specify username" 1>&2
-    exit 1
-  fi
-
-  # skip login if you are already logged in as the specified user
-  # otherwise, login
-  echo "checking if user is already logged in"
-  currentuser=$(login_check $username)
-
-  if [ -z $currentuser ]; then
-    echo "logging in"
-    az login -u $username
-  else
-    echo "already logged in. skipping login"
-  fi
-
-  # must be admin to run commands
-  echo "checking if current user is an admin"
-  check=$(admin_check $username)
-
-  if [ -z $check ]; then
-    echo "must be admin" 1>&2
-    exit 1
-  fi
-
-  echo "validated user"
-}
-
 # the create command
 # creates the user
-create_user()
+create()
 {
   PASSWORD=revature2019!
   DOMAIN=kenttokunagagmail.onmicrosoft.com
@@ -192,6 +146,35 @@ if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" 
   exit 1
 fi
 
-login $username
+# checks for arguments
+if [ -z $username ]; then
+  echo "please specify username" 1>&2
+  exit 1
+fi
+
+# skip login if you are already logged in as the specified user
+# otherwise, login
+echo "checking if user is already logged in"
+currentuser=$(az account show \
+  --query user.name \
+  | grep -E $username)
+
+if [ -z $currentuser ]; then
+  echo "logging in"
+  az login -u $username
+else
+  echo "already logged in. skipping login"
+fi
+
+# must be admin to run commands
+echo "checking if current user is an admin"
+check=$(admin_check $username)
+
+if [ -z $check ]; then
+  echo "must be admin" 1>&2
+  exit 1
+fi
+
+echo "validated user"
 
 $command $3 $4 $5
