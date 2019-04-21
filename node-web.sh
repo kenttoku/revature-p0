@@ -3,7 +3,19 @@
 
 start()
 {
+  filepath=$1
+
+  # validate input
+  if [ -z $filepath ]; then
+    echo "Missing file path"
+    exit 1
+  elif ! [ -e $filepath ]; then
+    echo "Invalid file path"
+    exit 1
+  fi
+
   echo "starting app"
+  node $filepath
 }
 
 stop()
@@ -19,9 +31,12 @@ if [ -z $command ]; then
 fi
 
 if [ $command = "start" ]; then
-  start
+  filepath=$2
+  start $filepath
 elif [ $command = "stop" ]; then
   stop
 else
   echo "Invalid command. Please use 'start' or 'stop'"
 fi
+
+exit 0
