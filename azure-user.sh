@@ -39,12 +39,9 @@ create_user()
 {
   PASSWORD=revature2019!
   DOMAIN=kenttokunagagmail.onmicrosoft.com
-  username=$1
-  userdisplayname=$2
-  usersubscription=$3
+  userdisplayname=$1
+  usersubscription=$2
   userprincipalname=$userdisplayname@$DOMAIN
-
-  login $username
 
   user=$(az ad user list \
   --query [].userPrincipalName \
@@ -63,15 +60,11 @@ create_user()
 
 assign_role()
 {
-  username=$1
-  login $username
   # az role assignemnt create --assinnee --role
 }
 
 delete_user()
 {
-  username=$1
-  login $username
 }
 
 
@@ -81,15 +74,16 @@ delete_user()
 command=$1
 username=$2
 
+login $username
 ##
 if [ $command = "create" ]; then
   userdisplayname=$3
   usersubscription=$4
-  create_user $username $userdisplayname $usersubscription
+  create_user $userdisplayname $usersubscription
 elif [ $command = "assign" ]; then
-  assign_role $username
+  assign_role
 elif [ $command = "delete" ]; then
-  delete_user $username
+  delete_user
 else
   echo "invalid command"
 fi
