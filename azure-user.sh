@@ -37,22 +37,24 @@ login()
 
 create_user()
 {
+  PASSWORD=revature2019!
+  DOMAIN=kenttokunagagmail.onmicrosoft.com
   username=$1
   userdisplayname=$2
   usersubscription=$3
-
-  DOMAIN=kenttokunagagmail.onmicrosoft.com
   userprincipalname=$userdisplayname@$DOMAIN
+
   login $username
 
   user=$(az ad user list \
   --query [].userPrincipalName \
   | grep -E $userprincipalname)
 
+  echo $user
   if [ -z $user ]; then
   az ad user create \
     --display-name $userdisplayname \
-    --password $random \
+    --password $PASSWORD \
     --user-principal-name $userprincipalname \
     --force-change-password-next-login \
     --subscription $usersubscription
@@ -63,7 +65,7 @@ assign_role()
 {
   username=$1
   login $username
-
+  # az role assignemnt create --assinnee --role
 }
 
 delete_user()
@@ -76,7 +78,6 @@ delete_user()
 # main
 
 ## variables and constants
-PASSWORD=revature2019!
 command=$1
 username=$2
 
@@ -84,7 +85,7 @@ username=$2
 if [ $command = "create" ]; then
   userdisplayname=$3
   usersubscription=$4
-  create_user $username $userdisplayname $userprincipalname
+  create_user $username $userdisplayname $usersubscription
 elif [ $command = "assign" ]; then
   assign_role $username
 elif [ $command = "delete" ]; then
