@@ -106,8 +106,35 @@ create_user()
 
 assign_role()
 {
-  echo "assign"
-  # az role assignemnt create --assinnee --role
+  roleaction=$3
+  username=$4
+  role=$(echo "$5" | tr '[:upper:]' '[:lower:]')
+
+  # validates arguments existence
+  if [ -z $roleaction ]; then
+    echo "must provide role action" 1>&2
+    exit 1
+  elif [ -z $username ]; then
+    echo "must provide username" 1>&2
+    exit 1
+  elif [ -z $role ]; then
+    echo "must provide role" 1>&2
+    exit 1
+  fi
+
+  # validates roleaction
+  if [ $roleaction != "create" ] && [ $roleaction != "delete" ]; then
+    echo "invalid role action. please use create or delete" 1>&2
+    exit 1
+  fi
+
+  # validates roleaction
+  if [ $roleaction != "reader" ] && [ $roleaction != "contributer" ]; then
+    echo "invalid role. please use reader or contributor" 1>&2
+    exit 1
+  fi
+
+  az role assignemnt $roleaction --assignee $username --role $role
 }
 
 delete_user()
@@ -157,8 +184,11 @@ if [ $command = "create" ]; then
   userdisplayname=$3
   usersubscription=$4
   create_user $userdisplayname $usersubscription
-elif [ $command = "assign" ]; then
-  assign_role
+elif [ $command = "role" ]; then
+  roleaction=$3
+  username=$4
+  role=$5
+  assign_role $roleaction $username $role
 elif [ $command = "delete" ]; then
   username=$3
   delete_user $username
