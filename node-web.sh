@@ -3,19 +3,26 @@
 
 start()
 {
-  filepath=$1
+  dirpath=$1
 
   # validate input
-  if [ -z $filepath ]; then
-    echo "Missing file path"
+  if [ -z $dirpath ]; then
+    echo "Missing directory name"
     exit 1
-  elif ! [ -e $filepath ]; then
-    echo "Invalid file path"
+  elif ! [ -d $dirpath ]; then
+    echo "Invalid directory"
+    exit 1
+  elif ! [ -d $dirpath/package.json ]; then
+    echo "Invalid node project. Please make sure there is a package.json in the directory"
+    exit 1
+  elif ! [ -d $(cat $dirpath/package.json | grep -E "start" ]; then
+    echo "No start script"
     exit 1
   fi
 
   echo "starting app"
-  node $filepath
+  cd $dirpath
+  npm start
 }
 
 stop()
@@ -31,8 +38,8 @@ if [ -z $command ]; then
 fi
 
 if [ $command = "start" ]; then
-  filepath=$2
-  start $filepath
+  dirpath=$2
+  start $dirpath
 elif [ $command = "stop" ]; then
   stop
 else

@@ -106,9 +106,9 @@ create_user()
 
 assign_role()
 {
-  roleaction=$3
-  username=$4
-  role=$(echo "$5" | tr '[:upper:]' '[:lower:]')
+  roleaction=$1
+  username=$2
+  role=$(echo "$3" | tr '[:upper:]' '[:lower:]')
 
   # validates arguments existence
   if [ -z $roleaction ]; then
@@ -129,7 +129,7 @@ assign_role()
   fi
 
   # validates roleaction
-  if [ $roleaction != "reader" ] && [ $roleaction != "contributer" ]; then
+  if [ $role != "reader" ] && [ $role != "contributer" ]; then
     echo "invalid role. please use reader or contributor" 1>&2
     exit 1
   fi
@@ -186,20 +186,12 @@ delete_user()
 command=$1
 username=$2
 
-login $username
-##
-if [ $command = "create" ]; then
-  userdisplayname=$3
-  usersubscription=$4
-  create_user $userdisplayname $usersubscription
-elif [ $command = "role" ]; then
-  roleaction=$3
-  username=$4
-  role=$5
-  assign_role $roleaction $username $role
-elif [ $command = "delete" ]; then
-  username=$3
-  delete_user $username
-else
-  echo "invalid command"
+# validate command
+if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" ]; then
+  echo "invalid command" 1>&2
+  exit 1
 fi
+
+login $username
+
+$command $3 $4 $5
