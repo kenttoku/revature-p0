@@ -16,13 +16,13 @@ start()
     exit 1
   fi
 
-  # if the path provided is a directory, run the npm start script
+  # if the location provided is a directory, run the npm start script
   if [ -d $location ]; then
     cd $location
     npm start
   fi
 
-  # if the path provided is a file, run using node
+  # if the location provided is a file, run using node
   if [ -e $location ]; then
     node $location
   fi
@@ -30,7 +30,7 @@ start()
 
 stop()
 {
-  echo "stopping app"
+  killall node
 }
 
 command=$1
