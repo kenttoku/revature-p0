@@ -4,16 +4,8 @@
 # add role of reader or contributor to subscription,
 # remove role of reader or contributor to subscription, delete non-admin only,
 # 1 script with 3 functions
-source ~/.profile
 
-## variables and constants
-DOMAIN=kenttokunagagmail.onmicrosoft.com
-PASSWORD=revature2019!
-username=$1
-userdisplayname=$3
-usersubscription=$4
-userprincipalname=$userdisplayname@$DOMAIN
-
+# functions
 login()
 {
   username=$1
@@ -29,13 +21,38 @@ admin_check()
     --query "[?id=='NA(classic admins)'].principalName" \
     | grep $principalname)
 
-  echo "$check"
+  if [ -z $check ]; then
+    echo "must be admin" 1>&2
+    exit 1
+  fi
 }
 
-login $username
-isAdmin=$(admin_check $username)
+create_user()
+{
+  username=$1
+  login $username
+  admin_check $username
+}
 
-# # get list of admins
-# az role assignment list \
-#   --include-classic-administrators \
-#   --query "[?id=='NA(classic admins)'].principalName"
+
+# main
+
+## variables and constants
+DOMAIN=kenttokunagagmail.onmicrosoft.com
+PASSWORD=revature2019!
+command=$1
+username=$2
+userdisplayname=$3
+usersubscription=$4
+userprincipalname=$userdisplayname@$DOMAIN
+
+##
+if [ $command = "create" ]; then
+  create_user $username
+elif [ $command = "assign" ]; then
+  echo "assign"
+elif [ $command = "delete" ]; then
+  echo "delete"
+else
+  echo "invalid command"
+fi
