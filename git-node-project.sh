@@ -6,7 +6,6 @@
 ## name: git-node-project.sh
 
 ## verify dev environment
-source ~/.profile
 brew=$(which brew)
 node=$(which node)
 git=$(which git)
@@ -44,8 +43,8 @@ if [ -z $dest ]; then
 fi
 
 echo $dest
-mkdir -p $dest/revaturexyz
-cd $dest/revaturexyz
+mkdir -p $dest/git-project
+cd $dest/git-project
 git init
 
 ## make it a node project
