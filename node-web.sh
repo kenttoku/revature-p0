@@ -1,6 +1,7 @@
 #!/bin/bash
 # automate the process of starting, stopping a node web application
 
+##### FUNCTIONS #####
 start()
 {
   location=$1
@@ -33,20 +34,20 @@ stop()
   killall node
 }
 
-command=$1
+##### MAIN #####
 
+command=$1
 if [ -z $command ]; then
   echo "Missing command. Please use 'start' or 'stop'"
   exit 1
 fi
 
-if [ $command = "start" ]; then
-  dirpath=$2
-  start $dirpath
-elif [ $command = "stop" ]; then
-  stop
-else
+if [ $command != "start" ] && [ $command != "stop" ]; then
   echo "Invalid command. Please use 'start' or 'stop'"
+  exit 1
 fi
+
+# Run the functions
+$command $2
 
 exit 0
