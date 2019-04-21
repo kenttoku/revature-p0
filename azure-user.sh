@@ -1,27 +1,7 @@
 #!/bin/bash
-# automate the process of creating, assigning, deleting a directory user
-# include: azure, must be admin,
-# add role of reader or contributor to subscription,
-# remove role of reader or contributor to subscription, delete non-admin only,
-# 1 script with 3 functions
 
-# functions
-
-# checks if the user is an admin
-admin_check()
-{
-  principalname=$1
-
-  check=$(az role assignment list \
-    --include-classic-administrators \
-    --query "[?id=='NA(classic admins)'].principalName" \
-    | grep -E $principalname)
-
-  echo $check
-}
-
-# the create command
-# creates the user
+##### FUNCTIONS #####
+## Creates the User
 create()
 {
   PASSWORD=revature2019!
@@ -58,7 +38,8 @@ create()
   fi
 }
 
-assign_role()
+## Assigns roles to a user
+role()
 {
   roleaction=$1
   username=$2
@@ -91,7 +72,8 @@ assign_role()
   az role assignemnt $roleaction --assignee $username --role $role
 }
 
-delete_user()
+## Deletes a non-admin user
+delete()
 {
   username=$1
   DOMAIN=@kenttokunagagmail.onmicrosoft.com
@@ -133,14 +115,12 @@ delete_user()
   fi
 }
 
-
-# main
-
-## variables and constants
+##### MAIN #####
+## Variables
 command=$1
 username=$2
 
-# validate command
+## Validate command
 if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" ]; then
   echo "invalid command" 1>&2
   exit 1
@@ -168,7 +148,10 @@ fi
 
 # must be admin to run commands
 echo "checking if current user is an admin"
-check=$(admin_check $username)
+check=$(az role assignment list \
+    --include-classic-administrators \
+    --query "[?id=='NA(classic admins)'].principalName" \
+    | grep -E $username)
 
 if [ -z $check ]; then
   echo "must be admin" 1>&2
