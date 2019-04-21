@@ -9,6 +9,10 @@
 login()
 {
   username=$1
+  if [ -z $username ]; then
+    echo "please specify username" 1>&2
+    exit 1
+  fi
   az login -u $username
 }
 
@@ -19,15 +23,50 @@ admin_check()
   check=$(az role assignment list \
     --include-classic-administrators \
     --query "[?id=='NA(classic admins)'].principalName" \
-    | grep $principalname)
+    | grep -E $principalname)
+
+  echo $check
+}
+
+create_user()
+{
+  username=$1
+  userdisplayname=$2
+  usersubscription=$3
+
+  DOMAIN=kenttokunagagmail.onmicrosoft.com
+  userprincipalname=$userdisplayname@$DOMAIN
+  login $username
+  $check=$(admin_check $username)
 
   if [ -z $check ]; then
     echo "must be admin" 1>&2
     exit 1
   fi
+
+  user=$(az ad user list \
+  --query [].userPrincipalName \
+  | grep -E $userprincipalname)
+
+  if [ -z $user ]; then
+  az ad user create \
+    --display-name $userdisplayname \
+    --password $random \
+    --user-principal-name $userprincipalname \
+    --force-change-password-next-login \
+    --subscription $usersubscription
+fi
+
 }
 
-create_user()
+assign_role()
+{
+  username=$1
+  login $username
+  admin_check $username
+}
+
+delete_user()
 {
   username=$1
   login $username
@@ -38,21 +77,19 @@ create_user()
 # main
 
 ## variables and constants
-DOMAIN=kenttokunagagmail.onmicrosoft.com
 PASSWORD=revature2019!
 command=$1
 username=$2
-userdisplayname=$3
-usersubscription=$4
-userprincipalname=$userdisplayname@$DOMAIN
 
 ##
 if [ $command = "create" ]; then
-  create_user $username
+  userdisplayname=$3
+  usersubscription=$4
+  create_user $username $userdisplayname $userprincipalname
 elif [ $command = "assign" ]; then
-  echo "assign"
+  assign_role $username
 elif [ $command = "delete" ]; then
-  echo "delete"
+  delete_user $username
 else
   echo "invalid command"
 fi
