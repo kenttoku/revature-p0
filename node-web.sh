@@ -31,7 +31,18 @@ start()
 
 stop()
 {
-  killall node
+  name=$1
+
+  # stop all node apps when nothing is specified
+  # otherwise, stop based on name search
+  if [ -z $name ]; then
+    killall node
+  else
+    ps | grep -E '\snode\s' | grep -E 'web-app' | while read -a array
+    do
+      kill "${array[0]}"
+    done
+  fi
 }
 
 ##### MAIN #####
