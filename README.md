@@ -8,12 +8,35 @@ A set of scripts to:
 
 ## Scripts
 
+
+### linux-setup.sh
+
+```
+  Usage:
+
+```
+
+### git-node-projects.sh
+
+```
+  Usage:
+
+```
+
+### azure-user.sh
+
+```
+  Usage:
+
+```
+
 ### node-web.sh
 
 ```
   Usage:
-    ./node-web.sh start location - Starts a node app at the specified location
-    ./node-web.sh stop [name] - Stops all node apps. If name is specified, stops all node apps with that includes the name.
+    ./node-web.sh start location - Starts a node app at the specified location.
+    ./node-web.sh stop [name] - Stops all node apps. If name
+    is specified, stops all node apps with that includes the name.
 ```
 
 ## Authors
