@@ -50,6 +50,14 @@ stop()
 command=$1
 
 ##### MAIN #####
+## check for node
+node=$(which node)
+
+if [ -z $node ]; then
+  echo "No node. Please install before continuing." 1>&2
+  exit 1
+fi
+
 # validate command
 if [ -z $command ]; then
   echo "Missing command. Please use 'start' or 'stop'"
