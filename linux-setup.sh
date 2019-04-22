@@ -26,9 +26,6 @@ brew install git
 brew install azure-cli
 
 ## install node
-#  installing python3-distutils because of issues with icu4c
-#  https://github.com/Homebrew/linuxbrew-core/issues/12680
-sudo apt install -y python3-distutils
 brew install node
 
 ## exit script
