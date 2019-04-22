@@ -64,12 +64,23 @@ if [ -z $command ]; then
   exit 1
 fi
 
-# validate command
-if [ $command != "start" ] && [ $command != "stop" ]; then
-  echo "Invalid command. Please use 'start' or 'stop'"
-  exit 1
-fi
-
+# # validate command
+# if [ $command != "start" ] && [ $command != "stop" ]; then
+#   echo "Invalid command. Please use 'start' or 'stop'"
+#   exit 1
+# fi
+case "$command" in
+  "start")
+    start $2
+  ;;
+  "stop")
+    stop $2
+  ;;
+  *)
+    echo "Invalid command. Please use 'start' or 'stop'"
+    exit 1
+  ;;
+esac
 # Run the functions
 $command $2
 
