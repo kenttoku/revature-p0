@@ -4,29 +4,28 @@
 ##### FUNCTIONS #####
 start()
 {
-  location=$1
+  directory=$1
 
   # validate input
-  if [ -z $location ]; then
-    echo "Missing location"
+  if [ -z $directory ]; then
+    echo "Missing directory" 1>&2
     exit 1
   fi
 
-  if ! [ -d $location ] && ! [ -e $location ]; then
-    echo "Invalid location"
+  if ! [ -d $directory ]; then
+    echo "Invalid directory" 1>&2
     exit 1
   fi
 
-  # if the location provided is a directory, run the npm start script
-  if [ -d $location ]; then
-    cd $location
-    npm start
+  # change to directory
+  cd $directory
+
+  if ! [ -e $directory/package.json ]; then
+    echo "Directory does not contain package.json"
   fi
 
-  # if the location provided is a file, run using node
-  if [ -e $location ]; then
-    node $location
-  fi
+  # start project
+  npm start
 }
 
 stop()
