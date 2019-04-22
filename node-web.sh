@@ -65,10 +65,6 @@ if [ -z $command ]; then
 fi
 
 # # validate command
-# if [ $command != "start" ] && [ $command != "stop" ]; then
-#   echo "Invalid command. Please use 'start' or 'stop'"
-#   exit 1
-# fi
 case "$command" in
   "start")
     start $2
