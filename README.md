@@ -12,15 +12,19 @@ A set of scripts to:
 ### linux-setup.sh
 
 ```
-  Usage:
-    ./linux-setup.sh - automate the process of provisioning a new linux virtual machine
-      Installs linuxbrew, node, git, azure-cli
+  Usage: automate the process of provisioning a new linux virtual machine
+    Installs linuxbrew, node, git, azure-cli
+
+    ./linux-setup.sh
 ```
 
 ### git-node-projects.sh
 
 ```
   Usage:
+    ./git-node-projects.sh [directoy]
+      Validates the dev environment to make sure brew, node, git and azure-cli is installed.
+
 
 ```
 
