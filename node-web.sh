@@ -38,7 +38,7 @@ stop()
   if [ -z $name ]; then
     killall node
   else
-    ps | grep -E '\snode\s' | grep -E 'web-app' | while read -a array
+    ps | grep -E '\snode\s' | grep -E $name | while read -a array
     do
       kill "${array[0]}"
     done
