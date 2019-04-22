@@ -10,9 +10,10 @@ sudo apt upgrade -y
 # added -y flag to answer yes to confirmations
 sudo apt install -y build-essential curl file git
 echo "/n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-sudo apt install -y linuxbrew-wrapper
-echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >> ~/.profile
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
 source ~/.profile
 
 ## install gcc
@@ -31,5 +32,5 @@ sudo apt install -y python3-distutils
 brew install node
 
 ## exit script
-echo "installation completed"
+echo "installation complete. please restart for changes to take effect"
 exit 0
