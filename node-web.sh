@@ -20,8 +20,18 @@ start()
   # change to directory
   cd $directory
 
-  if ! [ -e $directory/package.json ]; then
-    echo "Directory does not contain package.json"
+  # check directory for package.json
+  if ! [ -e package.json ]; then
+    echo "Directory does not contain package.json" 1>&2
+    exit 1
+  fi
+
+  # check package.json for  "start" script
+  startscript=$(cat package.json | grep "start")
+
+  if [ -z $startscript ]; then
+    echo "package.json does not contain 'start' script." 1>&2
+    exit 1
   fi
 
   # start project
@@ -30,22 +40,11 @@ start()
 
 stop()
 {
-  name=$1
-
-  # stop all node apps when nothing is specified
-  # otherwise, stop based on name search
-  if [ -z $name ]; then
-    killall node
-  else
-    # show all, show users, show processes not attatched to terminal
-    # filtering using grep. array[1] corresponds to the pid
-    ps aux | grep -E '\snode\s' | grep -E $name | while read -a array
-    do
-      kill "${array[1]}"
-    done
-  fi
+  ps aux | grep -E '\snode\s' | while read -a array
+  do
+    kill "${array[1]}"
+  done
 }
-
 
 ##### VARIABLES #####
 command=$1
