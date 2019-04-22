@@ -11,31 +11,48 @@ git=$(which git)
 
 ## check for node
 if [ -z $node ]; then
-  echo "No node. Please install before continuing" 1>&2
+  echo "No node. Please install before continuing." 1>&2
   exit 1
 fi
 
 ## check for git
 if [ -z $git ]; then
-  echo "No git. Please install before continuing" 1>&2
+  echo "No git. Please install before continuing." 1>&2
   exit 1
 fi
 
 ## create git project
-dest=$1
+## variables
+directory=$1
+user_email=$2
+user_name=$3
 
-if [ -z $dest ]; then
-  echo "No directory specified. Please specify a directory" 1>&2
+## validate input. Directory must be specified
+if [ -z $directory ]; then
+  echo "No directory specified. Please specify a directory." 1>&2
   exit 1
 fi
 
-echo $dest
-mkdir -p $dest/git-project
-cd $dest/git-project
-git init
+if [ -z $user_email ]; then
+  echo "No email specified. Please specify a email." 1>&2
+  exit 1
+fi
 
-## make it a node project
-npm init -y
+if [ -z $user_name ]; then
+  echo "No user name specified. Please specify a user name." 1>&2
+  exit 1
+fi
+
+## Validate directory. It must be empty or nonexistent
+if [ -d $directory ] && ! [ -z $(ls -A ${directory}) ]; then
+  echo "Directory is not empty. Please choose another location or empty the directory." 1>&2
+  exit 1
+fi
+
+echo "Creating file structure"
+
+mkdir -p $directory
+cd $directory
 
 ## create all directories
 mkdir -p \
@@ -76,6 +93,18 @@ touch \
   src/.gitkeep \
   test/.gitkeep
 
+echo "File structure created"
+
+## Convert to git repo
+echo "Initializing git"
+git config --global user.email "$user_email"
+git config --global user.name "$user_name"
+git init
+
+## Convert to Node project
+echo "Creating Node Project"
+npm init -y
+
 ## exit script
-echo "project created in $dest"
+echo "project created in $directory"  
 exit 0
