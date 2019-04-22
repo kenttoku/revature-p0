@@ -3,31 +3,28 @@
 ## script automates the process of setting up a new virutal machine
 
 ## update apt
-sudo apt update
-sudo apt upgrade -y
+echo "updating apt"
+apt update
+apt upgrade -y
+apt install -y build-essential curl file git
+echo "apt update completed"
 
 ## set up brew - installation instructions from https://docs.brew.sh/Homebrew-on-Linux
 # added -y flag to answer yes to confirmations
-sudo apt install -y build-essential curl file git
+
+echo "brew install started"
 echo "/n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
 test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
 echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-source ~/.profile
+echo "brew install complete"
 
-## install gcc
-brew install gcc
-
-## install git
-brew install git
-
-## install azure-cli
-brew install azure-cli
-
-## install node
-brew install node
+## install tools
+echo "tooling started"
+brew install azure-cli gcc git node
+echo "tooling complete"
 
 ## exit script
-echo "installation complete. please restart for changes to take effect"
+echo "installation complete"
 exit 0
