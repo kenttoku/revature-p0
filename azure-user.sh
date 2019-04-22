@@ -120,7 +120,6 @@ delete()
 
 ##### VARIABLES #####
 command=$1
-username=$2
 
 ##### MAIN #####
 
@@ -130,38 +129,22 @@ if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" 
   exit 1
 fi
 
-# validate username
-if [ -z $username ]; then
-  echo "please specify username" 1>&2
-  exit 1
-fi
-
-# skip login if you are already logged in as the specified user
-# otherwise, login
-echo "checking if user is already logged in"
-currentuser=$(az account show \
-  --query user.name \
-  | grep -E $username)
-
-if [ -z $currentuser ]; then
-  echo "logging in"
-  az login -u $username
-else
-  echo "already logged in. skipping login"
-fi
+adminusername=$(az account show \
+  --query user.name)
 
 # must be admin to run commands
 echo "checking if current user is an admin"
 check=$(az role assignment list \
     --include-classic-administrators \
     --query "[?id=='NA(classic admins)'].principalName" \
-    | grep -E $username)
+    | grep -E $adminusername)
 
 if [ -z $check ]; then
-  echo "must be admin" 1>&2
+  echo "must be admin to run commands" 1>&2
   exit 1
 fi
 
 echo "validated as admin user"
 
-$command $3 $4 $5
+# run command - 'create', 'role', or 'delete' with the arguments
+$command $2 $3 $4
