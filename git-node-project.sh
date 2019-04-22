@@ -25,7 +25,8 @@ fi
 dest=$1
 
 if [ -z $dest ]; then
-  dest=$(pwd)
+  echo "No directory specified. Please specify a directory" 1>&2
+  exit 1
 fi
 
 echo $dest
@@ -76,5 +77,5 @@ touch \
   test/.gitkeep
 
 ## exit script
-echo "project created in $(pwd)"
+echo "project created in $dest"
 exit 0
