@@ -38,6 +38,8 @@ stop()
   if [ -z $name ]; then
     killall node
   else
+    # show all, show users, show processes not attatched to terminal
+    # filtering using grep. array[1] corresponds to the pid
     ps aux | grep -E '\snode\s' | grep -E $name | while read -a array
     do
       kill "${array[1]}"
@@ -45,14 +47,18 @@ stop()
   fi
 }
 
-##### MAIN #####
 
+##### VARIABLES #####
 command=$1
+
+##### MAIN #####
+# validate command
 if [ -z $command ]; then
   echo "Missing command. Please use 'start' or 'stop'"
   exit 1
 fi
 
+# validate command
 if [ $command != "start" ] && [ $command != "stop" ]; then
   echo "Invalid command. Please use 'start' or 'stop'"
   exit 1
