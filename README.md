@@ -13,7 +13,8 @@ A set of scripts to:
 
 ```
   Usage:
-
+    ./linux-setup.sh - automate the process of provisioning a new linux virtual machine
+      Installs linuxbrew, node, git, azure-cli
 ```
 
 ### git-node-projects.sh
