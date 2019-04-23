@@ -5,7 +5,7 @@
 ## Start node project
 start()
 {
-  # check package.json for  "start" script
+  ## check package.json for  "start" script
   startscript=$(cat package.json | grep "start")
 
   if [ -z "$startscript" ]; then
@@ -13,14 +13,15 @@ start()
     exit 1
   fi
 
-  # start project
+  ## start project
+  echo "Validation complete. Attempting to start project"
   npm start
 }
 
 ## Stop node project
 stop()
 {
-  # check package.json for "stop" script
+  ## check package.json for "stop" script
   stopscript=$(cat package.json | grep "stop")
 
   if [ -z "$stopscript" ]; then
@@ -28,7 +29,8 @@ stop()
     exit 1
   fi
 
-  # stop project
+  ## stop project
+  echo "Validation complete. Attempting to stop project"
   npm stop
 }
 
@@ -44,13 +46,13 @@ if [ -z "$node" ]; then
   exit 1
 fi
 
-# validate command
+## validate command
 if [ -z "$command" ]; then
   echo "Missing command. Please use 'start' or 'stop'" 1>&2
   exit 1
 fi
 
-# validate directory
+## validate directory
 if [ -z "$directory" ]; then
   echo "Missing directory" 1>&2
   exit 1
@@ -61,16 +63,16 @@ if ! [ -d $directory ]; then
   exit 1
 fi
 
-# change to directory
+## change to directory
 cd $directory
 
-# check directory for package.json
+## check directory for package.json
 if ! [ -e package.json ]; then
   echo "Directory does not contain package.json" 1>&2
   exit 1
 fi
 
-# validate command
+## validate and run command
 case "$command" in
   "start")
     start
