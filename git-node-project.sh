@@ -7,18 +7,16 @@ user_email=$2
 user_name=$3
 
 ## verify dev environment
-node=$(which node)
-git=$(which git)
 
 echo "Verifying environment"
 ## check for node
-if [ -z "$node" ]; then
+if [ -z "$(which node)" ]; then
   echo "No node. Please install before continuing." 1>&2
   exit 1
 fi
 
 ## check for git
-if [ -z "$git" ]; then
+if [ -z $(which git) ]; then
   echo "No git. Please install before continuing." 1>&2
   exit 1
 fi
