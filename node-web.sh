@@ -34,14 +34,13 @@ stop()
   npm stop
 }
 
+## Main
 ## Variables
 command=$1
 directory=$2
 
 ## check for node
-node=$(which node)
-
-if [ -z "$node" ]; then
+if [ -z $(which node) ]; then
   echo "No node. Please install before continuing." 1>&2
   exit 1
 fi
@@ -49,6 +48,11 @@ fi
 ## validate command
 if [ -z "$command" ]; then
   echo "Missing command. Please use 'start' or 'stop'" 1>&2
+  exit 1
+fi
+
+if [ "$command" != "start" ] && [ "$command" != "stop" ]; then
+  echo "Invalid command. Please use 'start' or 'stop'" 1>&2
   exit 1
 fi
 
@@ -79,9 +83,5 @@ case "$command" in
   ;;
   "stop")
     stop
-  ;;
-  *)
-    echo "Invalid command. Please use 'start' or 'stop'" 1>&2
-    exit 1
   ;;
 esac
