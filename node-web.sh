@@ -4,32 +4,10 @@
 ##### FUNCTIONS #####
 start()
 {
-  directory=$1
-
-  # validate input
-  if [ -z $directory ]; then
-    echo "Missing directory" 1>&2
-    exit 1
-  fi
-
-  if ! [ -d $directory ]; then
-    echo "Invalid directory" 1>&2
-    exit 1
-  fi
-
-  # change to directory
-  cd $directory
-
-  # check directory for package.json
-  if ! [ -e package.json ]; then
-    echo "Directory does not contain package.json" 1>&2
-    exit 1
-  fi
-
   # check package.json for  "start" script
   startscript=$(cat package.json | grep "start")
 
-  if [ -z $startscript ]; then
+  if [ -z "$startscript" ]; then
     echo "package.json does not contain 'start' script." 1>&2
     exit 1
   fi
@@ -40,14 +18,21 @@ start()
 
 stop()
 {
-  ps aux | grep -E '\snode\s' | while read -a array
-  do
-    kill "${array[1]}"
-  done
+  # check package.json for "stop" script
+  stopscript=$(cat package.json | grep "stop")
+
+  if [ -z "$stopscript" ]; then
+    echo "package.json does not contain 'stop' script." 1>&2
+    exit 1
+  fi
+
+  # stop project
+  npm stop
 }
 
 ##### VARIABLES #####
 command=$1
+directory=$2
 
 ##### MAIN #####
 ## check for node
@@ -64,20 +49,38 @@ if [ -z $command ]; then
   exit 1
 fi
 
-# # validate command
+# validate directory
+if [ -z $directory ]; then
+  echo "Missing directory" 1>&2
+  exit 1
+fi
+
+if ! [ -d $directory ]; then
+  echo "Invalid directory" 1>&2
+  exit 1
+fi
+
+# change to directory
+cd $directory
+
+# check directory for package.json
+if ! [ -e package.json ]; then
+  echo "Directory does not contain package.json" 1>&2
+  exit 1
+fi
+
+# validate command
 case "$command" in
   "start")
-    start $2
+    start
   ;;
   "stop")
-    stop $2
+    stop
   ;;
   *)
     echo "Invalid command. Please use 'start' or 'stop'"
     exit 1
   ;;
 esac
-# Run the functions
-$command $2
 
 exit 0
