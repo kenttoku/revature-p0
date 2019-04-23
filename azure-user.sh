@@ -43,7 +43,7 @@ role()
 {
   roleaction=$1
   username=$2
-  role=$(echo "$3" | tr '[:upper:]' '[:lower:]')
+  userrole=$(echo "$3" | tr '[:upper:]' '[:lower:]')
 
   # validates arguments existence
   if [ -z "$roleaction" ]; then
@@ -52,7 +52,7 @@ role()
   elif [ -z "$username" ]; then
     echo "must provide username" 1>&2
     exit 1
-  elif [ -z "$role" ]; then
+  elif [ -z "$userrole" ]; then
     echo "must provide role" 1>&2
     exit 1
   fi
@@ -63,13 +63,13 @@ role()
     exit 1
   fi
 
-  # validates role
-  if [ $role != "reader" ] && [ $role != "contributer" ]; then
+  # validates userrole
+  if [ $userrole != "reader" ] && [ $userrole != "contributer" ]; then
     echo "invalid role. please use reader or contributor" 1>&2
     exit 1
   fi
 
-  az role assignemnt $roleaction --assignee $username --role $role
+  az role assignemnt $roleaction --assignee $username --role $userrole
 }
 
 ## Deletes a non-admin user
@@ -120,12 +120,6 @@ if [ -z "$az" ]; then
   exit 1
 fi
 
-# Validate command
-if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" ]; then
-  echo "invalid command" 1>&2
-  exit 1
-fi
-
 adminusername=$(az account show \
   --query user.name)
 
@@ -144,4 +138,25 @@ fi
 echo "validated as admin user"
 
 # run command - 'create', 'role', or 'delete' with the arguments
-$command $2 $3 $4
+
+case "$command" in
+  "create")
+    username=$2
+    subscription=$3
+    create $username $subscription
+  ;;
+  "role")
+    roleaction=$2
+    username=$3
+    userrole=$4
+    role $roleaction $username $userrole
+  ;;
+  "delete")
+    username=$2
+    delete $username
+  ;;
+  *)
+    echo "Invalid command. Please use 'create' or 'role' or 'delete'"
+    exit 1
+  ;;
+esac
