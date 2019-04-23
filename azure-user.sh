@@ -63,7 +63,7 @@ role()
     exit 1
   fi
 
-  # validates roleaction
+  # validates role
   if [ $role != "reader" ] && [ $role != "contributer" ]; then
     echo "invalid role. please use reader or contributor" 1>&2
     exit 1
@@ -122,6 +122,12 @@ delete()
 command=$1
 
 ##### MAIN #####
+az=$(which az)
+
+if [ -z $az ]; then
+  echo "No azure-cli. Please install before continuing." 1>&2
+  exit 1
+fi
 
 # Validate command
 if [ $command != "create" ] && [ $command != "role" ] && [ $command != "delete" ]; then
