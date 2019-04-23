@@ -10,8 +10,6 @@ apt install -y build-essential curl file git
 echo "apt update completed"
 
 ## set up brew - installation instructions from https://docs.brew.sh/Homebrew-on-Linux
-# added -y flag to answer yes to confirmations
-
 echo "brew install started"
 echo "/n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
