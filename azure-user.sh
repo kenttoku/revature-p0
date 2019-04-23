@@ -76,7 +76,6 @@ role()
 delete()
 {
   username=$1
-  DOMAIN=@kenttokunagagmail.onmicrosoft.com
 
   # validates arguments
   if [ -z "$username" ]; then
@@ -113,14 +112,12 @@ delete()
 command=$1
 
 ## Check for azure-cli
-az=$(which az)
-
-if [ -z "$az" ]; then
+if [ -z "$(which az)" ]; then
   echo "No azure-cli. Please install before continuing." 1>&2
   exit 1
 fi
 
-## Check Admin name
+## Find name of current user for admin check
 adminusername=$(az account show \
   --query user.name)
 
@@ -143,8 +140,8 @@ echo "validated as admin user"
 case "$command" in
   "create")
     username=$2
-    subscription=$3
-    create $username $subscription
+    usersubscription=$3
+    create $username $usersubscription
   ;;
   "role")
     roleaction=$2
