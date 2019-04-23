@@ -84,22 +84,13 @@ delete()
     exit 1
   fi
 
-  # adds domain to username if omitted
-  usernamecheck=$(echo "$username" | grep -E $DOMAIN)
-
-  if [ -z $usernamecheck ]; then
-    userprincipalname=${username}${DOMAIN}
-  else
-    userprincipalname=$username
-  fi
-
   # do not delete if user is admin
   admincheck=$(az role assignment list \
     --include-classic-administrators \
     --query "[?id=='NA(classic admins)'].principalName" \
-    | grep -E $userprincipalname)
+    | grep -E $username)
 
-  if ! [ -z $admincheck ]; then
+  if [ -n "$admincheck" ]; then
     echo "You may not delete another admin" 1>&2
     exit 1
   fi
@@ -107,14 +98,14 @@ delete()
   # check if the user exists
   user=$(az ad user list \
     --query [].userPrincipalName \
-    | grep -E $userprincipalname)
+    | grep -E $username)
 
   if [ -z $user ]; then
     echo "user does not exist" 1>&2
     exit 1
   else
     echo "deleting user"
-    az ad user delete --upn-or-object-id $userprincipalname
+    az ad user delete --upn-or-object-id $username
   fi
 }
 
