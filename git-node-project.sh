@@ -107,4 +107,3 @@ npm init -y
 
 ## exit script
 echo "project created in $(pwd)"
-exit 0

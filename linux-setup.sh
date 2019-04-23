@@ -25,4 +25,3 @@ echo "tooling complete"
 
 ## exit script
 echo "installation complete"
-exit 0
