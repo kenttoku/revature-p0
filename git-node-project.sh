@@ -1,7 +1,7 @@
 #!/bin/bash
 ## automate the process of setting up a new git project repository structure
 
-##### VARIABLES #####
+## Variables
 directory=$1
 user_email=$2
 user_name=$3

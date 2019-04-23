@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##### FUNCTIONS #####
+## Functions
 ## Creates the User
 create()
 {
@@ -109,10 +109,10 @@ delete()
   fi
 }
 
-##### VARIABLES #####
+## Variables
 command=$1
 
-##### MAIN #####
+## Check for azure-cli
 az=$(which az)
 
 if [ -z "$az" ]; then
@@ -120,6 +120,7 @@ if [ -z "$az" ]; then
   exit 1
 fi
 
+## Check Admin name
 adminusername=$(az account show \
   --query user.name)
 

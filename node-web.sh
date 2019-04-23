@@ -1,7 +1,8 @@
 #!/bin/bash
 # automate the process of starting, stopping a node web application
 
-##### FUNCTIONS #####
+## Functions
+## Start node project
 start()
 {
   # check package.json for  "start" script
@@ -16,6 +17,7 @@ start()
   npm start
 }
 
+## Stop node project
 stop()
 {
   # check package.json for "stop" script
@@ -30,11 +32,10 @@ stop()
   npm stop
 }
 
-##### VARIABLES #####
+## Variables
 command=$1
 directory=$2
 
-##### MAIN #####
 ## check for node
 node=$(which node)
 
