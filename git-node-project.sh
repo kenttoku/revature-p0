@@ -43,16 +43,20 @@ if [ -z "$user_name" ]; then
   exit 1
 fi
 
+# create directory if it doesn't exist
+if ! [ -d $directory ]; then
+  mkdir -p $directory
+fi
+
+cd $directory
+
 ## Validate directory. It must be empty or nonexistent
-if [ -d $directory ] && [ -n "$(ls -A ${directory})" ]; then
+if [ -n "$(ls -A)" ]; then
   echo "Directory is not empty. Please choose another location or empty the directory." 1>&2
   exit 1
 fi
 
 echo "Creating file structure"
-
-mkdir -p $directory
-cd $directory
 
 ## create all directories
 mkdir -p \
