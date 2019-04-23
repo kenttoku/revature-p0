@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "echo \"starting node app...\"",
+    "stop": "echo \"stopping node app...\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
