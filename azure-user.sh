@@ -11,10 +11,10 @@ create()
   userprincipalname=$userdisplayname@$DOMAIN
 
   # validate arguments
-  if [ -z $userdisplayname ]; then
+  if [ -z "$userdisplayname" ]; then
     echo "must provide display name" 1>&2
     exit 1
-  elif [ -z $usersubscription ]; then
+  elif [ -z "$usersubscription" ]; then
     echo "must provide subscription" 1>&2
     exit 1
   fi
@@ -24,7 +24,7 @@ create()
     --query [].userPrincipalName \
     | grep -E $userprincipalname)
 
-  if [ -z $user ]; then
+  if [ -z "$user" ]; then
     echo "creating user"
     az ad user create \
       --display-name $userdisplayname \
@@ -46,13 +46,13 @@ role()
   role=$(echo "$3" | tr '[:upper:]' '[:lower:]')
 
   # validates arguments existence
-  if [ -z $roleaction ]; then
+  if [ -z "$roleaction" ]; then
     echo "must provide role action" 1>&2
     exit 1
-  elif [ -z $username ]; then
+  elif [ -z "$username" ]; then
     echo "must provide username" 1>&2
     exit 1
-  elif [ -z $role ]; then
+  elif [ -z "$role" ]; then
     echo "must provide role" 1>&2
     exit 1
   fi
@@ -79,7 +79,7 @@ delete()
   DOMAIN=@kenttokunagagmail.onmicrosoft.com
 
   # validates arguments
-  if [ -z $username ]; then
+  if [ -z "$username "]; then
     echo "must provide username" 1>&2
     exit 1
   fi
@@ -100,7 +100,7 @@ delete()
     --query [].userPrincipalName \
     | grep -E $username)
 
-  if [ -z $user ]; then
+  if [ -z "$user" ]; then
     echo "user does not exist" 1>&2
     exit 1
   else
@@ -115,7 +115,7 @@ command=$1
 ##### MAIN #####
 az=$(which az)
 
-if [ -z $az ]; then
+if [ -z "$az" ]; then
   echo "No azure-cli. Please install before continuing." 1>&2
   exit 1
 fi
@@ -136,7 +136,7 @@ check=$(az role assignment list \
     --query "[?id=='NA(classic admins)'].principalName" \
     | grep -E $adminusername)
 
-if [ -z $check ]; then
+if [ -z "$check" ]; then
   echo "must be admin to run commands" 1>&2
   exit 1
 fi
