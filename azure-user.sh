@@ -156,7 +156,7 @@ case "$command" in
     delete $username
   ;;
   *)
-    echo "Invalid command. Please use 'create' or 'role' or 'delete'"
+    echo "Invalid command. Please use 'create' or 'role' or 'delete'" 1>&2
     exit 1
   ;;
 esac

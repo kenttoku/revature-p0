@@ -45,7 +45,7 @@ fi
 
 # validate command
 if [ -z $command ]; then
-  echo "Missing command. Please use 'start' or 'stop'"
+  echo "Missing command. Please use 'start' or 'stop'" 1>&2
   exit 1
 fi
 
@@ -78,7 +78,7 @@ case "$command" in
     stop
   ;;
   *)
-    echo "Invalid command. Please use 'start' or 'stop'"
+    echo "Invalid command. Please use 'start' or 'stop'" 1>&2
     exit 1
   ;;
 esac
