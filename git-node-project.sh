@@ -12,13 +12,13 @@ git=$(which git)
 
 echo "Verifying environment"
 ## check for node
-if [ -z $node ]; then
+if [ -z "$node" ]; then
   echo "No node. Please install before continuing." 1>&2
   exit 1
 fi
 
 ## check for git
-if [ -z $git ]; then
+if [ -z "$git" ]; then
   echo "No git. Please install before continuing." 1>&2
   exit 1
 fi
@@ -28,17 +28,17 @@ echo "Completed environment verification"
 ## create file structure
 
 ## validate input. Directory must be specified
-if [ -z $directory ]; then
+if [ -z "$directory" ]; then
   echo "No directory specified. Please specify a directory." 1>&2
   exit 1
 fi
 
-if [ -z $user_email ]; then
+if [ -z "$user_email" ]; then
   echo "No email specified. Please specify a email." 1>&2
   exit 1
 fi
 
-if [ -z $user_name ]; then
+if [ -z "$user_name" ]; then
   echo "No name specified. Please specify a name." 1>&2
   exit 1
 fi
