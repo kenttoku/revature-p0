@@ -79,7 +79,7 @@ delete()
   DOMAIN=@kenttokunagagmail.onmicrosoft.com
 
   # validates arguments
-  if [ -z "$username "]; then
+  if [ -z "$username" ]; then
     echo "must provide username" 1>&2
     exit 1
   fi
