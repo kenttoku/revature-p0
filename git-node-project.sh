@@ -97,8 +97,8 @@ echo "File structure created"
 
 ## Convert to git repo
 echo "Initializing git"
-git config --global user.email "$user_email"
-git config --global user.name "$user_name"
+git config user.email "$user_email"
+git config user.name "$user_name"
 git init
 
 ## Convert to Node project
