@@ -1,14 +1,16 @@
 #!/bin/bash
-
-## equirement 2-
 ## automate the process of setting up a new git project repository structure
-## include: verify req-1 is valid, create web node-based project (see week-3 revaturexyz.sh)
-## name: git-node-project.sh
+
+##### VARIABLES #####
+directory=$1
+user_email=$2
+user_name=$3
 
 ## verify dev environment
 node=$(which node)
 git=$(which git)
 
+echo "Verifying environment"
 ## check for node
 if [ -z $node ]; then
   echo "No node. Please install before continuing." 1>&2
@@ -21,11 +23,9 @@ if [ -z $git ]; then
   exit 1
 fi
 
-## create git project
-## variables
-directory=$1
-user_email=$2
-user_name=$3
+echo "Completed environment verification"
+
+## create file structure
 
 ## validate input. Directory must be specified
 if [ -z $directory ]; then
@@ -39,12 +39,12 @@ if [ -z $user_email ]; then
 fi
 
 if [ -z $user_name ]; then
-  echo "No user name specified. Please specify a user name." 1>&2
+  echo "No name specified. Please specify a name." 1>&2
   exit 1
 fi
 
 ## Validate directory. It must be empty or nonexistent
-if [ -d $directory ] && ! [ -z $(ls -A ${directory}) ]; then
+if [ -d $directory ] && [ -n "$(ls -A ${directory})" ]; then
   echo "Directory is not empty. Please choose another location or empty the directory." 1>&2
   exit 1
 fi
@@ -106,5 +106,5 @@ echo "Creating Node Project"
 npm init -y
 
 ## exit script
-echo "project created in $directory"  
+echo "project created in $directory"
 exit 0
