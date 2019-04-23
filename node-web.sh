@@ -38,19 +38,19 @@ directory=$2
 ## check for node
 node=$(which node)
 
-if [ -z $node ]; then
+if [ -z "$node" ]; then
   echo "No node. Please install before continuing." 1>&2
   exit 1
 fi
 
 # validate command
-if [ -z $command ]; then
+if [ -z "$command" ]; then
   echo "Missing command. Please use 'start' or 'stop'" 1>&2
   exit 1
 fi
 
 # validate directory
-if [ -z $directory ]; then
+if [ -z "$directory" ]; then
   echo "Missing directory" 1>&2
   exit 1
 fi
