@@ -24,15 +24,18 @@ A set of scripts to:
   Usage:
     ./git-node-projects.sh directory gituseremail gitusername
       Validates the dev environment to make sure git and node are installed.
-      Creates a new git project repository structure using the directory, git user email, and git user name provided.
+      Creates a new git project repository structure using the directory, 
+        git user email, and git user name provided.
 ```
 
 ### azure-user.sh
 
 ```
   Usage:
-    ./azure-user.sh create username subscription - Creates an user with the username and subscription specified.
-    ./azure-user.sh role action user role - Assigns the role to an user. Action may be create or delete.
+    ./azure-user.sh create username subscription - Creates an user with the 
+      username and subscription specified.
+    ./azure-user.sh role action user role - Assigns the role to an user. 
+      Action may be create or delete.
     ./azure-user.sh delete user - Deletes a non-admin user.
 ```
 
@@ -40,8 +43,10 @@ A set of scripts to:
 
 ```
   Usage:
-    ./node-web.sh start directory - Checks the directory for a "start" script in the package.json. Runs npm start if it is found.
-    ./node-web.sh stop directory - Checks the directory for a "stop" script in the package.json. Runs npm stop if it is found.
+    ./node-web.sh start directory - Checks the directory for a "start" script 
+      in the package.json. Runs npm start if it is found.
+    ./node-web.sh stop directory - Checks the directory for a "stop" script 
+      in the package.json. Runs npm stop if it is found.
 ```
 
 ## Authors
