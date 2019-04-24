@@ -4,9 +4,9 @@
 
 ## update apt
 echo "updating apt"
-apt update
-apt upgrade -y
-apt install -y build-essential curl file git
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y build-essential curl file git
 echo "apt update completed"
 
 ## set up brew - installation instructions from https://docs.brew.sh/Homebrew-on-Linux
