@@ -122,14 +122,14 @@ adminusername=$(az account show \
   --query user.name)
 
 # must be admin to run commands
-echo "checking if current user is an admin"
+echo "checking account status"
 check=$(az role assignment list \
     --include-classic-administrators \
     --query "[?id=='NA(classic admins)'].principalName" \
     | grep -E $adminusername)
 
 if [ -z "$check" ]; then
-  echo "must be admin to run commands" 1>&2
+  echo "you must be logged in as an admin to run commands" 1>&2
   exit 1
 fi
 

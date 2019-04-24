@@ -78,10 +78,6 @@ fi
 
 ## validate and run command
 case "$command" in
-  "start")
-    start
-  ;;
-  "stop")
-    stop
-  ;;
+  "start") start;;
+  "stop") stop;;
 esac
