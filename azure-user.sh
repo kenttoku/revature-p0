@@ -10,7 +10,7 @@ create()
   usersubscription=$2
   userprincipalname=$userdisplayname@$DOMAIN
 
-  # validate arguments
+  ## validate arguments
   if [ -z "$userdisplayname" ]; then
     echo "must provide display name" 1>&2
     exit 1
@@ -19,7 +19,7 @@ create()
     exit 1
   fi
 
-  # check if the user already exists
+  ## check if the user already exists
   user=$(az ad user list \
     --query [].userPrincipalName \
     | grep -E $userprincipalname)
@@ -45,7 +45,7 @@ role()
   username=$2
   userrole=$(echo "$3" | tr '[:upper:]' '[:lower:]')
 
-  # validates arguments existence
+  ## validates arguments existence
   if [ -z "$roleaction" ]; then
     echo "must provide role action" 1>&2
     exit 1
@@ -57,13 +57,13 @@ role()
     exit 1
   fi
 
-  # validates roleaction
+  ## validates roleaction
   if [ $roleaction != "create" ] && [ $roleaction != "delete" ]; then
     echo "invalid role action. please use create or delete" 1>&2
     exit 1
   fi
 
-  # validates userrole
+  ## validates userrole
   if [ $userrole != "reader" ] && [ $userrole != "contributer" ]; then
     echo "invalid role. please use reader or contributor" 1>&2
     exit 1
@@ -77,7 +77,7 @@ delete()
 {
   username=$1
 
-  # validates arguments
+  ## validates arguments
   if [ -z "$username" ]; then
     echo "must provide username" 1>&2
     exit 1
@@ -118,10 +118,15 @@ if [ -z "$(which az)" ]; then
 fi
 
 ## Find name of current user for admin check
-adminusername=$(az account show \
-  --query user.name)
+adminusername=$(az account show --query user.name)
 
-# must be admin to run commands
+## If az account show returned an error,
+if [ "$?" != "0" ]; then
+  echo "you must be logged in as an admin to run commands" 1>&2
+  exit 1
+fi
+
+## must be admin to run commands
 echo "checking account status"
 check=$(az role assignment list \
     --include-classic-administrators \
@@ -135,7 +140,7 @@ fi
 
 echo "validated as admin user"
 
-# run command - 'create', 'role', or 'delete' with the arguments
+## run command - 'create', 'role', or 'delete' with the arguments
 
 case "$command" in
   "create")
